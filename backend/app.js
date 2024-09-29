@@ -11,7 +11,7 @@ import jobRoutes from "./Routes/jobRoutes.js";
 import applicationRoutes from "./Routes/applicationRoutes.js";
 import { newsLetterCron } from "./automation/newsLetterCron.js";
 
-config({ path: "./config/config.env" });
+config({ path: "./.env" });
 
 const app = express();
 app.use(

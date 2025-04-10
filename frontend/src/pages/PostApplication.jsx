@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   clearAllApplicationErrors,
   postApplication,
   resetApplicationSlice,
 } from "../store/slices/ApplicationSlice.js";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchSingleJob } from "../store/slices/jobSlice.js";
 import { IoMdCash } from "react-icons/io";
@@ -29,7 +29,6 @@ const PostApplication = () => {
   const [coverLetter, setCoverLetter] = useState("");
   const [resume, setResume] = useState("");
 
-  const navigateTo = useNavigate();
   const dispatch = useDispatch();
 
   const handlePostApplication = (e) => {

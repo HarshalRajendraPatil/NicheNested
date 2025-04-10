@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   clearAllJobErrors,
@@ -70,11 +69,10 @@ const JobPost = () => {
     "Ghaziabad",
   ];
 
-  const { isAuthenticated, user } = useSelector((state) => state.user);
   const { loading, error, message } = useSelector((state) => state.jobs);
   const dispatch = useDispatch();
 
-  const handlePostJob = (e) => {
+  const handlePostJob = () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("jobType", jobType);
@@ -132,7 +130,11 @@ const JobPost = () => {
         <select value={location} onChange={(e) => setLocation(e.target.value)}>
           <option value="">Select Job Type</option>
           {cities.map((element) => {
-            return <option value={element}>{element}</option>;
+            return (
+              <option key={element} value={element}>
+                {element}
+              </option>
+            );
           })}
         </select>
       </div>
@@ -191,7 +193,11 @@ const JobPost = () => {
         <select value={jobNiche} onChange={(e) => setJobNiche(e.target.value)}>
           <option value="">Select Job Niche</option>
           {nichesArray.map((element) => {
-            return <option value={element}>{element}</option>;
+            return (
+              <option key={element} value={element}>
+                {element}
+              </option>
+            );
           })}
         </select>
       </div>

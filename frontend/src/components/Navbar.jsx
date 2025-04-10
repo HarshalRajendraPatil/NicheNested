@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import axios from "axios";
+
 const Navbar = () => {
   const [show, setShow] = useState(false);
   const { isAuthenticated } = useSelector((state) => state.user);
+
   return (
     <>
       <nav className={show ? "navbar show_navbar" : "navbar"}>
@@ -30,6 +31,19 @@ const Navbar = () => {
                   <Link to={"/dashboard"} onClick={() => setShow(!show)}>
                     DASHBOARD
                   </Link>
+                </li>
+                <li>
+                  <Link to={"/resume"} onClick={() => setShow(!show)}>
+                    RESUME
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href="https://prepwithus-roadmap.netlify.app/"
+                    target="_blank"
+                  >
+                    ROADMAPS
+                  </a>
                 </li>
               </>
             ) : (

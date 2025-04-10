@@ -4,10 +4,16 @@ import { User } from "../models/userSchema.js";
 import ErrorHandler from "./error.js";
 
 export const isAuthenticated = catchAsync(async (req, res, next) => {
-  const { token } = req.cookies;
+  const authHeader = req.headers.authorization;
+  const token =
+    authHeader && authHeader.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
+
   if (!token) {
     return next(new ErrorHandler("User not authenticated.", 400));
   }
+
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
   req.user = await User.findById(decoded.id);
   next();

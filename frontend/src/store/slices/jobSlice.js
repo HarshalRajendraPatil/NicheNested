@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 
 const jobSlice = createSlice({
   name: "jobs",
@@ -108,7 +108,7 @@ export const fetchJobs =
   async (dispatch) => {
     try {
       dispatch(jobSlice.actions.requestForAllJobs());
-      let link = "https://nichenested.onrender.com/api/v1/job/getall?";
+      let link = "/job/getall?";
       let queryParams = [];
       if (searchKeyword) {
         queryParams.push(`searchKeyword=${searchKeyword}`);
@@ -121,7 +121,7 @@ export const fetchJobs =
       }
 
       link += queryParams.join("&");
-      const response = await axios.get(link, { withCredentials: true });
+      const response = await axiosInstance.get(link);
       dispatch(jobSlice.actions.successForAllJobs(response.data.jobs));
       dispatch(jobSlice.actions.clearAllErrors());
     } catch (error) {
@@ -132,10 +132,7 @@ export const fetchJobs =
 export const fetchSingleJob = (jobId) => async (dispatch) => {
   dispatch(jobSlice.actions.requestForSingleJob());
   try {
-    const response = await axios.get(
-      `https://nichenested.onrender.com/api/v1/job/get/${jobId}`,
-      { withCredentials: true }
-    );
+    const response = await axiosInstance.get(`/job/get/${jobId}`);
     dispatch(jobSlice.actions.successForSingleJob(response.data.job));
     dispatch(jobSlice.actions.clearAllErrors());
   } catch (error) {
@@ -146,11 +143,7 @@ export const fetchSingleJob = (jobId) => async (dispatch) => {
 export const postJob = (data) => async (dispatch) => {
   dispatch(jobSlice.actions.requestForPostJob());
   try {
-    const response = await axios.post(
-      `https://nichenested.onrender.com/api/v1/job/post`,
-      data,
-      { withCredentials: true, headers: { "Content-Type": "application/json" } }
-    );
+    const response = await axiosInstance.post("/job/post", data);
     dispatch(jobSlice.actions.successForPostJob(response.data.message));
     dispatch(jobSlice.actions.clearAllErrors());
   } catch (error) {
@@ -161,10 +154,7 @@ export const postJob = (data) => async (dispatch) => {
 export const getMyJobs = () => async (dispatch) => {
   dispatch(jobSlice.actions.requestForMyJobs());
   try {
-    const response = await axios.get(
-      `https://nichenested.onrender.com/api/v1/job/getmyjobs`,
-      { withCredentials: true }
-    );
+    const response = await axiosInstance.get("/job/getmyjobs");
     dispatch(jobSlice.actions.successForMyJobs(response.data.myJobs));
     dispatch(jobSlice.actions.clearAllErrors());
   } catch (error) {
@@ -175,10 +165,7 @@ export const getMyJobs = () => async (dispatch) => {
 export const deleteJob = (id) => async (dispatch) => {
   dispatch(jobSlice.actions.requestForDeleteJob());
   try {
-    const response = await axios.delete(
-      `https://nichenested.onrender.com/api/v1/job/delete/${id}`,
-      { withCredentials: true }
-    );
+    const response = await axiosInstance.delete(`/job/delete/${id}`);
     dispatch(jobSlice.actions.successForDeleteJob(response.data.message));
     dispatch(clearAllJobErrors());
   } catch (error) {

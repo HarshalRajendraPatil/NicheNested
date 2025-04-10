@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 
 const applicationSlice = createSlice({
   name: "applications",
@@ -83,12 +83,7 @@ const applicationSlice = createSlice({
 export const fetchEmployerApplications = () => async (dispatch) => {
   dispatch(applicationSlice.actions.requestForAllApplications());
   try {
-    const response = await axios.get(
-      `https://nichenested.onrender.com/api/v1/application/employer/getall`,
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await axiosInstance.get("/application/employer/getall");
     dispatch(
       applicationSlice.actions.successForAllApplications(
         response.data.applications
@@ -107,12 +102,7 @@ export const fetchEmployerApplications = () => async (dispatch) => {
 export const fetchJobSeekerApplications = () => async (dispatch) => {
   dispatch(applicationSlice.actions.requestForMyApplications());
   try {
-    const response = await axios.get(
-      `https://nichenested.onrender.com/api/v1/application/jobseeker/getall`,
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await axiosInstance.get("/application/jobseeker/getall");
     dispatch(
       applicationSlice.actions.successForMyApplications(
         response.data.applications
@@ -131,13 +121,10 @@ export const fetchJobSeekerApplications = () => async (dispatch) => {
 export const postApplication = (data, jobId) => async (dispatch) => {
   dispatch(applicationSlice.actions.requestForPostApplication());
   try {
-    const response = await axios.post(
-      `https://nichenested.onrender.com/api/v1/application/post/${jobId}`,
+    const response = await axiosInstance.post(
+      `/application/post/${jobId}`,
       data,
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      }
+      { headers: { "Content-Type": "multipart/form-data" } }
     );
     dispatch(
       applicationSlice.actions.successForPostApplication(response.data.message)
@@ -155,10 +142,7 @@ export const postApplication = (data, jobId) => async (dispatch) => {
 export const deleteApplication = (id) => async (dispatch) => {
   dispatch(applicationSlice.actions.requestForDeleteApplication());
   try {
-    const response = await axios.delete(
-      `https://nichenested.onrender.com/api/v1/application/delete/${id}`,
-      { withCredentials: true }
-    );
+    const response = await axiosInstance.delete(`/application/delete/${id}`);
     dispatch(
       applicationSlice.actions.successForDeleteApplication(
         response.data.message

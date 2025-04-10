@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 
 const updateProfileSlice = createSlice({
   name: "updateProfile",
@@ -46,14 +46,9 @@ const updateProfileSlice = createSlice({
 export const updateProfile = (data) => async (dispatch) => {
   dispatch(updateProfileSlice.actions.updateProfileRequest());
   try {
-    const response = await axios.put(
-      "https://nichenested.onrender.com/api/v1/user/update/profile",
-      data,
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
+    await axiosInstance.put("/user/update/profile", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     dispatch(updateProfileSlice.actions.updateProfileSuccess());
   } catch (error) {
     dispatch(
@@ -66,14 +61,9 @@ export const updateProfile = (data) => async (dispatch) => {
 export const updatePassword = (data) => async (dispatch) => {
   dispatch(updateProfileSlice.actions.updatePasswordRequest());
   try {
-    const response = await axios.put(
-      "https://nichenested.onrender.com/api/v1/user/update/password",
-      data,
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    await axiosInstance.put("/user/update/password", data, {
+      headers: { "Content-Type": "application/json" },
+    });
     dispatch(updateProfileSlice.actions.updatePasswordSuccess());
   } catch (error) {
     dispatch(
